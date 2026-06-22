@@ -87,7 +87,10 @@ async function ensureBucketExists() {
 
   if (getRes.ok) return; // already exists
 
-  if (getRes.status === 404) {
+  // Some Supabase Storage deployments wrap a missing-bucket 404 in an HTTP 400.
+  const getText = await getRes.text().catch(() => "");
+  const bucketIsMissing = getRes.status === 404 || /bucket not found/i.test(getText);
+  if (bucketIsMissing) {
     // Create the bucket (private by default; change public:true if you want it public)
     const createRes = await fetch(`${SUPABASE_URL}/storage/v1/bucket`, {
       method: "POST",
@@ -101,8 +104,7 @@ async function ensureBucketExists() {
     return;
   }
 
-  const txt = await getRes.text().catch(() => "");
-  throw new Error(`Bucket check error: ${getRes.status} ${txt}`);
+  throw new Error(`Bucket check error: ${getRes.status} ${getText}`);
 }
 
 // Read JSON object from storage; returns null if not found
