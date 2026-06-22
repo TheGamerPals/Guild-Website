@@ -7,6 +7,7 @@
   const changesEl = $("#changesBlock");
   const placementPill = document.getElementById('placementPill');
   const guild = String(window.APP_CONFIG?.guild || 'Guild');
+  const discordUrl = String(window.APP_CONFIG?.discordUrl || '');
 const sortSelect = document.getElementById('sortSelect');
 let currentSort = 'wins';
 function agoSimpleFromMs(ms) {
@@ -132,6 +133,9 @@ function sortPlayers(list, key) {
   function renderLinks() {
     if (!linkPills) return;
     linkPills.innerHTML = `
+      <a class="pill pillLink" href="${escapeHtml(discordUrl)}" target="_blank" rel="noopener">
+        ${guild} Discord
+      </a>
       <a class="pill pillLink" href="https://sk1er.club/guild/name/${encodeURIComponent(guild)}" target="_blank" rel="noopener">
         See ${guild} on sk1er
       </a>

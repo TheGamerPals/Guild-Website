@@ -6,6 +6,7 @@ Required:
 - `SUPABASE_KEY` (or `SUPABASE_SERVICE_ROLE_KEY`)
 - `ADMIN_PASS`
 - `guild`
+- `DISCORD_URL`
 
 Optional:
 

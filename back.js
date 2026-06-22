@@ -21,18 +21,20 @@ const SUPABASE_STORAGE_BUCKET = process.env.SUPABASE_STORAGE_BUCKET || "guildinf
 const SUPABASE_STORAGE_OBJECT = process.env.SUPABASE_STORAGE_OBJECT || "guild.json";
 const SUPABASE_TABLE = process.env.SUPABASE_TABLE || "env_vars";
 const GUILD = process.env.guild || process.env.GUILD || "";
+const DISCORD_URL = process.env.DISCORD_URL || "";
 // --- Admin state (RAM) ---
 let adminLastUpdatedAtIso = null;   // when the API key was last set via admin
 const ADMIN_PASS = process.env.ADMIN_PASS || "";
 // Optional separate-host deployment example (not used by the /admin route):
 // const ADMIN_HOST = process.env.ADMIN_HOST || "admin.example.com";
-const PUBLIC_CONFIG_JSON = JSON.stringify({ guild: GUILD }).replace(/</g, "\\u003c");
+const PUBLIC_CONFIG_JSON = JSON.stringify({ guild: GUILD, discordUrl: DISCORD_URL }).replace(/</g, "\\u003c");
 
 const missingRuntimeConfig = [
   ["SUPABASE_URL", SUPABASE_URL],
   ["SUPABASE_KEY", SUPABASE_KEY],
   ["ADMIN_PASS", ADMIN_PASS],
   ["guild", GUILD],
+  ["DISCORD_URL", DISCORD_URL],
 ].filter(([, value]) => !value).map(([name]) => name);
 if (missingRuntimeConfig.length) {
   throw new Error(`Missing required environment variable(s): ${missingRuntimeConfig.join(", ")}`);
